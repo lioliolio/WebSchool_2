@@ -50,3 +50,15 @@ for i in range(5):
 
 for i in range(5):
 	print((" " * i) + ("*" * (5 - i)))
+
+#소수 구하기 Lambda 함수로 바꾸기
+#우선 내 생각으로는 for 문 한번은 필요하다고 생각함.
+
+MAX = 1000
+
+for i in range(2, int(MAX**0.5) + 1):
+	not_prime_list += list(map(lambda x: x, range(i*2, MAX + 1, i)))
+	        
+prime_list = list(filter(lambda x: x not in not_prime_list, range(2, MAX + 1)))
+
+print(prime_list)
