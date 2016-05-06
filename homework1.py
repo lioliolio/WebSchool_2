@@ -79,7 +79,7 @@ prime_list = list(filter(lambda x: x not in not_prime_list, range(2, MAX + 1)))
 
 print(prime_list)
 
-# 이게 답인듯?
+# 이게 답인듯?(답아님)
 MAX = 10
 
 not_prime_list += list(map(lambda x: map(lambda x: x, range(2,int(MAX**0.5) +1)), range(i*2, MAX + 1, i)))
