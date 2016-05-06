@@ -51,6 +51,8 @@ for i in range(5):
 for i in range(5):
 	print((" " * i) + ("*" * (5 - i)))
 
+#--------------------------------------------------
+
 #소수 구하기 Lambda 함수로 바꾸기
 #우선 내 생각으로는 for 문 한번은 필요하다고 생각함.
 
@@ -61,4 +63,26 @@ for i in range(2, int(MAX**0.5) + 1):
 	        
 prime_list = list(filter(lambda x: x not in not_prime_list, range(2, MAX + 1)))
 
+print(prime_list)
+
+# 함수 선언하고 해본 코드
+MAX = 1000
+
+def non_prime(numbers):
+	for i in range(2, int(numbers**0.5) + 1):
+		for j in range(i*2, numbers+1, i):
+			return j
+					            
+not_prime_list += list(map(lambda x: non_prime(x), range(2, MAX + 1)))
+					    
+prime_list = list(filter(lambda x: x not in not_prime_list, range(2, MAX + 1)))
+
+print(prime_list)
+
+# 이게 답인듯?
+MAX = 10
+
+not_prime_list += list(map(lambda x: map(lambda x: x, range(2,int(MAX**0.5) +1)), range(i*2, MAX + 1, i)))
+    
+prime_list = list(filter(lambda x: x not in not_prime_list, range(2, MAX + 1)))
 print(prime_list)
