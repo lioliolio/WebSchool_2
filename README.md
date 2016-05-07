@@ -602,7 +602,7 @@ print(sum(1, 3, 5))
 
 ```python
 def greeting(name, course):
-	print("{name}님, {course} 등록을 축하드립니다.".format(name = name, course, course))
+	print("{name}님, {course} 등록을 축하드립니다.".format(name = name, course = course))
 
 values = ("김태우", "마케팅")
 
@@ -617,4 +617,654 @@ greetin(*values) # => greeting("김태우", "마케팅")
 ```
 김태우님, 마케팅 등록을 축하드립니다.
 김태우님, 마케팅 등록을 축하드립니다.
+```
+
+```python
+# tuple => 3개
+# 이름, 수강신청이유, 코스명
+
+def info(name, reason, course):
+	print("{name}님이 {reason}의 이유로 {course}를 등록 하셨습니다".format(name=name, reason = reason, course = course ))
+
+values = ("김태우", "심심하다", "마케팅")
+
+info(*values)
+```
+
+```
+김태우님이 심심하다의 이유로 마케팅를 등록 하셨습니다.
+```
+
+```python
+# unnamed argument => *args (tuple)
+# named argument(keyword) => **kwargs (dict)
+
+#예제
+
+def greeting(name, course):
+	print("{name}님, {course} 등록을 축하드립니다.".format(name = name, course = course))
+
+values = {
+	"name": "김태우",
+    "course": "마케팅"
+}
+
+greeting(name="김태우", course="마케팅")
+greeting(*values)
+greeting(**values) #for문에서 dict에서의 key값을 이용하는 것과 같음.
+```
+
+```
+김태우님, 마케팅 등록을 축하드립니다.
+course님, name 등록을 축하드립니다.
+김태우님, 마케팅 등록을 축하드립니다.
+```
+
+```python
+# **kwargs 로 함수 만들기
+
+def print_all_informations(**kwargs):
+	for key, value in kwargs.items():
+    	print("{key} => {value}",format(key=key, value=value))
+
+informations = {
+	"name": "김태우"
+    "email": "kpc00100@gmail.com"
+    "age": 31
+}
+
+print_all_informations(**infomations)
+print_all_informations(name="김태우", course="경제학")
+```
+
+```
+name => 김태우
+age => 31
+email => kpc00100@gmail.com
+course => 경제학
+name => 김태우
+```
+
+```python
+# def 누가만들어둔함수(이건필수값1, 이건필수값2, *arg, **kwargs):
+# 라이브러리의 경우 뒤에는 세부 옵션 같은 것
+```
+
+```python
+# Lambda
+# 이름이 없는 함수 (익명 함수)
+# 재사용이 안되는 함수
+
+def increment(x):
+	return x + 1
+
+increment_lambda = lambda x: x+1
+
+increment(30)
+increment_lambda(30)
+```
+
+```
+31
+31
+```
+
+```python
+(lambda x: x+1)(34)
+(lambda x, y: x**y)(2, 2)
+```
+
+```
+35
+4
+```
+
+```python
+# List를 입력받아서 그 List 값을 제곱한 리스트를 리턴해주는 함수
+# 내가 만든 함수
+
+def get_square_list(numbers):
+	square_list = []
+
+	for number in numbers:
+    	square_list.append(number**2)
+    return square_list
+
+get_square_list([3, 4, 5, 6])
+```
+
+```
+[9, 16, 25, 36]
+```
+
+```python
+# map은 List의 각각의 element에 대해서 특정 함수를 적용한다.
+# map은 List와 함께 움직임???
+
+def square(x):
+	return x ** 2
+list(map(lambda x: x**2, [1, 2, 3]))
+list(map(square, [1, 2, 3]))
+```
+
+```
+[1, 4, 9]
+[1, 4, 9]
+```
+
+**파이썬 3일차**
+
+1. 퀴즈
+
+```python
+# 1. 1 ~ 100까지의 숫자 중에서 3과 5로 나누어 떨어지는 수를 저장하는 List를 만들어 주세요.
+
+# Lambda 함수 이용할 때
+
+list(filter(
+	lambda x: x % 3 == 0 or x % 5 == 0,
+    range(1, 100+1)
+))
+
+# list comprehension 이용할 때
+
+[i for i in range(1, 100+1) if i%3==0 or i%5==0]
+# 연산자는 명시적으로 쓰자 => and, or 등등
+```
+
+```python
+# 2. 3의 배수가 입력되면 fast, 5의 배수가 입력되면 campus, 15의 배수가 입력되면  fastcampus 입력
+
+num = 100
+
+result = ""
+
+if num % 3 == 0:
+	result += "fast"
+
+if num % 5 == 0:
+	result += "campus"
+
+result
+```
+
+```python
+# 1~100 리스트 작성
+# ["", "", "fast", "", "campus", "", ..., "fastcampus", ...]
+# for 문 사용
+
+word_list = []
+
+for i in range(1, 100+1):
+	word = ""
+    if i % 3 == 0:
+    	word += "fast"
+    if i % 5 == 0:
+    	word += "campus"
+
+	word_list.append(word)
+word_list
+
+# list comprehension
+# ["", "", "fast", "", ...]
+# ["", "", "", "", "campus", ...]
+# 참일 때의 값 if 조건문 else  거짓일 때의 값
+# 뒤에 쓰는 if는 lambda에서 filter와 같은 역할
+
+fast_list = [
+	"fast" if x % 3 == 0 else ""
+    for x
+    in range(1, 100+1)
+]
+
+campus_list = [
+	"campus" if x % 5 == 0 else ""
+    for x
+    in range(1, 100+1)
+]
+
+# 가장 파이썬 다운 방법
+
+[
+	fast_list[i] + campus_list[i]
+    for i
+    in range(1, 100+1)
+]
+```
+
+```python
+# something(100, 3, "fast", 5, "campus")
+# ["", "", "fast", "", "campus", ..., "fastcampus", ...]
+
+def somethin(count, first_number, first_word, second_number, second_word):
+	first_list = [
+    	first_word if i % first_number == 0 else ""
+        for i
+        in range(1, count+1)
+    ]
+
+	second_list = [
+    	second_word if i % second_number == 0 else ""
+        for i
+        in range(1, count+1)
+    ]
+
+	return [
+    	first_list[i] + second_list[i]
+        for i
+        in range(count)
+    ]
+```
+
+```python
+# palindrome
+# 기러기 => 기러기
+# 소주만병만주소 => 소주만병만주소
+
+# is_palindrome("기러기") => True
+# is_palindrome("아버지") => False
+
+# 답
+# 정의 => 문자열을 받아서, 뒤집었을 때 같으면 True 틀리면 False
+# len("기러기")
+
+def reverse(word):
+	reversed_word = ""
+    for i in range(len(word)):
+    	reversed_word += word[(len(word)-1-i)]
+    return reversed_word
+
+def in_palindrome(word):
+	return word == reverse(word)
+
+# 더 쉽게하는 법
+# "기러기는기러기다"[::-1] => "다기러기는기러기"
+
+def is_palindrome(word):
+	return word == word[::-1]
+
+# lambda 함수 사용
+
+(lambde x: x == x[::-1])("김태우")
+```
+
+2. 문자열 처리
+
+```python
+# "패스트캠퍼스 스쿨 과정은 참 좋다"
+# =>["패스트캠퍼스", "스쿨", "과정은", "참", "좋다"]
+
+# 내가 작성한 코드
+
+def word_split(sentence):
+
+	result = ""
+    word_split_list = []
+
+	for i in range(len(sentence)):
+    	if sentence[i] == " ":
+        	word_split_list.append(result)
+            result = ""
+        else:
+        	result += sentence[i]
+
+	if result != " ":
+    	word_split_list.append(result)
+
+	return word_split_list
+
+# 답
+# 앞에서 부터 한글자 한글자 읽으면서 => " " 스페이스가 나올 때까지
+# 기다렸다가, 이게 나오면 모아뒀던 단어들을 리스트에 추가한다.
+
+def word_split(sentence):
+	
+    word_list = []
+    word = ""
+    
+    # for i in range(len(sentence))
+    for char in sentence:
+    	if char == " ":
+    		word_list.append(word)
+        	word = ""
+   		 else:
+    		word += char
+    # 이 시점에 word가 비어있지 않은 상태
+    if word != "":
+    	word_list.append(word)
+        
+    return word_list
+
+def word_split(sentence, seperate=" "): # 함수에 기본값 넣는 방법
+
+	word_list = []
+    word = ""
+    
+    for char in sentence:
+    	if char == seperate:
+        	word_list.append(word)
+            word = ""
+        else:
+        	word += char
+    #이 시점에 word가 비어있지 않은 상태
+    if word != "":
+    	word_list.append(word)
+        
+    return word_list
+
+# word_split => 문장을 받아 단어 리스트
+# word_join => 단어 리스트를 받아 문장으로 만드는
+# word_replace => 단어를 받아서 특정 단어만 다른 단어로 바꾸는 것
+
+# word_join(["안녕하세요", "저는", "김태우입니다."], " ")
+# => "안녕하세요 저는 김태우입니다."
+
+# word_replace("패스트캠퍼스", "패스트", "Fast")
+# => "Fast 캠퍼스"
+# 숙제
+```
+
+```python
+# word_join 답
+
+def word_join(word_list, seperate=" "):
+	result = ""
+    for word in word_list:
+    	result += word
+        result += seperate
+    return result
+```
+
+```python
+# word_replace("패스트캠퍼스", "패스트", "Fast")
+# => "Fast캠퍼스"
+# 과제
+
+def word_replace(full_word, first_word, last_word):
+	pass
+```
+
+```python
+# SPLIT
+# JOIN
+# REPLACE
+```
+
+```python
+# SPLIT
+# 문자열 => 리스트 형식으로
+word_list ="패스트캠퍼스는 참 좋다".split(" ")
+
+[word for word in word_list if not word == ""] # 뒤에 " " 안나오게 하기
+```
+
+```python
+# JOIN
+# word_join(문자 리스트, 구분자)
+
+" ".join(["패스트캠퍼스", "참", "좋구나"]) # 구분자.join(문자리스트)
+```
+
+```python
+# REPLACE
+# word_replace
+
+"패스트캠퍼스".replace("패스트", "Fast")
+```
+
+책 추천 - 컴퓨터 프로그램의 구조와 해석(SICP)
+
+```python
+# dict 형식 => {"김태우": "주소..."}
+
+# List의 List => Dict의 List로 변경하기
+# [{...}, {...}, {...}]
+
+user_list = [
+	["김태우", "주소1"]
+    ["김하영", "주소2"]
+]
+
+# 1. for 문으로
+
+user_dict_list = []
+
+for user in user_list:
+	name = user[0]
+    address = user[1]
+    user_dict = {
+    	"name": name,
+        "address": address
+    }
+    user_dict_list.append(user_dict)
+    
+user_dict_list
+
+# 2. list comprehension으로
+
+[
+	{
+    	"name": user[0],
+        "address": user[1]
+    }
+	for user
+    in user_list
+]
+
+# for 앞에 위치는 lambda x:... 함수부분 정의해주는 부분과 같음
+
+def get_user_dict(user):
+	return {
+    	"name": user[0],
+        "address": user[1]
+    }
+
+[
+	get_user_dict(user)
+    for user
+    in user_list
+]
+# 빈 list 로 for 문 작업할 시 list comprehension으로 거의 표현 가능
+# 처음부터 생각이 안날떄는 for문으로 먼저 해보고 그담에 list comprehension으로 만들자.
+```
+
+```python
+# 파일 입출력 이용
+# user.csv
+# 위의 파일을 읽어서 dict 형식으로 만들자
+# with open("../users.csv", "r") as f:
+#	...
+
+# 답 for문
+
+with open("../users.csv", "r") as f:
+	user_list = []
+    
+    for line in f.readlines():
+    	user_list.append(
+        	{
+            	"name" : line.split(",")[0],
+                "appress": line.split(",")[1].replace("\n", "")
+            })
+	user_list
+    
+# list comprehension
+
+with open("../users.csv", "r") as f:
+	user_list = [
+    	{
+        	"name": line.split(",")[0],
+            "address": line.split(",")[1].replace("\n", "")
+        }
+        for line
+        in f.readlines()
+    ]
+    user_list
+```
+
+```python
+# 데이터 전처리
+
+# phonenumber.txt 파일 안에 있는 자료를 
+# phonenumber_preprocess.txt 에 수정해서 저장하기
+# 형식 01025430432
+# 010-2454-0011 => 01024540011
+# 공일공2552-공공일일 => 01025520011
+# 공일공 => 010
+
+def preprocess(phonenumber):
+	hangul_to_number_dict = {
+    	"공": 0,
+        "영": 0,
+        "일": 1,
+        "이": 2,
+        "삼": 3,
+        "사": 4,
+        "오": 5,
+        "육": 6,
+        "칠": 7,
+        "팔": 8,
+        "구": 9,
+        "-": "",
+        " ": ""
+    }
+    
+    for key, value in hangul_to_number_dict.items():
+    	phonenumber = phonenumber.replace(key, str(value))
+    
+    return phonenumber
+
+with open("../phonenumber.txt", "r") as input_file:
+	with open("./phonenumber_preprocessed.txt", "w") as output_file:
+    	phonenumber_list = [
+        	preprocess(line.replace("\n", ""))
+            for line
+            in input_file.readlines()
+        ]
+        
+        for phonenumber in phonenumber_list:
+        	output_file.write(phonenumber + "\n")
+
+# 위의 코드 개선
+
+with open("../phonenumber.txt", "r") as input_file:
+	with open("./phonenumber_preprocessed.txt", "w") as output_file:
+    	[
+        	output_file.write(
+            	preprocess(line.replace("\n", "")) + "\n")
+            for line
+            in input_file.readlines()
+        ]
+```
+
+*객체 지향 프로그래밍*
+
+```python
+# 객체 지향 프로그래밍 (Object Oriented Programming)
+
+# 절차 지향 프로그래밍
+# 데이터, 데이터 처리하는 함수
+
+# 객체 지향 프로그래밍
+# 절차 <<<<<< 개개체
+# 둥둥 떠다니는 객체
+# 객체(데이터, 각각의 데이터를 처리하는 방법) <=> 객체 : 메세지를 전달
+# 실험 => 완벽하게 적합한 알고리즘
+
+# 함수형 프로그래밍 => Lambda, Lambda Operator, List Comprehension
+# 모든 객체 자체를 함수로 생각
+```
+
+```python
+# 김태우 학생
+# 학생이 무엇인가?
+
+class Student():
+	__campus = "패스트캠퍼스"
+	# private => 객체 내부에서만 호출할 수 있는 변수
+    # 변경되면 안되는 변수에 사용...하지만 이것도 변경 가능...
+    def __init__(self, name, age):
+    # init => initialize (초기화하다)
+    # Student() => __init__ 함수가 실행되는 것
+    #이름을 입력 안 했을 때 => 객체가 만들어지지 않도록 해야합니다.	
+        self.name = name
+        self.age = age
+        print("학생 {name}({age})) 가 태어났습니다.".format(
+        	name=self.name,
+            age=self.age
+        ))
+        
+	# 자기 소개를 할 수 있다.
+    def introduce(self):
+    	print("안녕하세요. 저는 [campus]에 다니는 {age}살 {name}입니다.").format(
+        	campus=self.__campus
+            age=self.age,
+            name=self.name
+		))
+
+lioliolio = Student("김태우", 31) #Student Class => 학생 객체
+dir(lioliolio) # dir 이 어떤 명령어 인지 찾아보기
+```
+
+```python
+# 직사각형 클래스 만들기
+
+class Rectangle():
+
+	def __init__(self, width, height):
+    	self.width = width
+        self.height = height
+        
+	def area(self):		# 면적
+    	return self.width * self*height
+        
+    def girth(self): 	# 둘레
+    	return 2 * (self.width + self.height)
+        
+    def is_bigger(self, another):
+    	if self.area() - another.area() >= 0:
+        	print("내가 큼")
+        else:
+        	print("내가 작음")
+
+# Class (Rectangle) => 명세, 붕어빵틀, 이데아, ...
+# 객체 (rec, rec1) => 실제 있는 애, 붕어빵, ...
+
+rec = Rectangle(2, 3)
+rec1 = Rectangle(4, 5)
+
+rec1.is_bigger(rec)
+```
+
+```python
+# 클래스를 만들고
+# users.csv 파일의 내용을
+# 객체형으로 리스트에 저장
+
+# 답
+
+class Student():
+	
+    def __init__(self, name, address):
+    	self.name = name
+        self.address = address
+        
+    def introduce(self):
+    	print("저는 {address}에 살고 있는, {name}입니다.".format(
+        address = self.address
+        name = self.name
+        ))
+        
+with open("../users.csv", "r") as f:
+	student_list = [
+    	Student(
+        	line.split(",")[0],
+            line.split(",")[1].replace("\n", "")
+        )
+
+        for line
+        in f.readlines()
+    ]
+for student in student_list:
+	student.introduce()
 ```
