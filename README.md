@@ -204,8 +204,139 @@ username = raw_input() ==> python2
 input은 str로 받는다.
 
 print("Hello World") ==> python3에서는 함수
-print "Hello World") ==> python2에서는 statement
+print("Hello World") ==> python2에서는 statement
 
+```python
+# Python 2.X 에서의 입력과 출력 부분에서 가장 뭄ㄴ제가 되는 부분은 "한글 인코딩"
+# 한글을 지원하는 인코딩 : UTF8, EUC-KR
+# Python 2.X의 기본 인코딩은 ascii
+# Python 에서는 문자열을 표현할 수 있는 str, unicode 타입을 제공
+# unicode는 문자표
+# str은 그 문자표를 표현하기 위해 규정해 놓은 규칙?? 예) UTF-8 등
+# 입력과 출력에서의 가장 큰 문제 - 인코딩
+# Unicode is a character set
+# UTF-8 is an encoding
+```
+
+```python
+# 인코딩 정확하게 명시하기
+
+print(type('한글')) # str
+print(type(u'한글')) # unicod
+```
+
+```
+$ python encoding.py
+
+SyntaxError: Non-ASCII character '\xed' in file test.py on line 1,
+but no encoding declared;
+see http://python.org/dev/peps/pep-02
+```
+
+```python
+# -*- coding: utf8 -*-
+
+print(type('한글')) # str
+print(type(u'한글')) # unicode
+# 이렇게 파이썬 파일 제일 상단부에 # -*- coding: utf8 -*- 를 정확하게 명시
+# 이 파이썬 파일이 UTF8 로 작성되었다는 것을 명시하는 것
+```
+
+```
+$ python encoding.py
+
+<type 'str'>
+<type 'unicode'>
+```
+
+```python
+# -*- coding: utf-8 -*-
+print str(unicode("한글"))
+
+# 한글 str을 uncode 로 변경했다가, 다시 str로 변경하면 문제가 생김
+```
+
+```
+$ python encoding.py
+
+UnicodeDecodeError: 'ascii' codec can't decode
+byte 0xed in position 0: ordinal not in range(128)
+```
+
+```python
+# -*- coding: utf-8 -*-
+# 한글 인코딩 변환하기
+print "한글".decode("utf8")
+print "한글".decode("utf8").encode("utf8")
+
+# 위와 같이 decode, encode를 통해서 변환가능
+# 인코딩 방식을 명시해야 함
+```
+
+```python
+# 다른 사람이 쓴 파일을 쓸 경우
+# python 기본 인코딩을 ascii에서 utf-8로 변경하는 법
+
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+```
+
+```
+* Python 2.X 에서만 해당하는 내용
+
+1. 파일 상단에 # -*-coding: utf-8 -*- 를 명시한다.
+2. 파이썬 스크립트 내에서는 반드시 unicode 로 변경해서 사용한다.
+3. 외부 파일을 읽거나 쓸 때는 str로 변경해서 읽거나 쓴다.
+4. 외부 라이브러리를 사용할 때는 setdefaultencoding을 사용해서 기보적으로 utf8을 사용하도록하자.
+
+# Python 3.X 는 모든 문자열이 unicode 이기 때문에 인코딩 신경안써도 된다.
+```
+
+```python
+# ./ 현재폴더
+# ../ 상위폴더
+# ./test.txt 현재폴더의
+# ../test.txt 상위폴더의
+# ../../test.txt 상위폴더의 상위폴더의
+```
+
+```python
+f = open("../animals.txt", "r") # mode => "w", "r", "a"
+f.close()
+# "w" (write) mode 로 파일을 여는 경우 기존 데이터는 모두 삭제
+# "a" (append) mode 로 파일을 열어 내용 추가 가능(기존 데이터 그대로 있음)
+```
+
+```python
+f.read() # 파일 안의 내용 전체를 문자열로 리턴
+f.readline() # 파일 안의 내용을 한 줄씩 리턴.
+f.readlines() # 파일 안의 모든 라인을 읽어 각각의 줄을 요소로 갖는 리스트로 리턴.
+```
+```python
+f = open("./animals.txt", "w")
+f.write("hello world")
+f.close()
+
+with open("./animals.txt","w") as f:
+	f.write("hello world")
+
+# with을 이용해서 파일 입/출력이 종료된 시점에서 자동으로  f.close 자동으로 실행시킬수 있음
+# 가능하면 with을 사용하자
+```
+
+```python
+# 작업 자동화
+# 우리가 반복적으로 사용할 어떤 특정 기능들에 대해서 => "재사용 가능한 코드 덩어리"
+
+# 함수정의
+def greeting():
+	username = input()
+    print("{username}님, 가입을 축하드립니다.".format(username=username))
+    
+# 함수실행
+greeting()
+```
 9일차
 
 ++**파이썬 2일차**++
@@ -1267,4 +1398,12 @@ with open("../users.csv", "r") as f:
     ]
 for student in student_list:
 	student.introduce()
+```
+
+**파이썬 12일차**
+
+```
+디버깅 (Debugging) - "버그를 잡는다"" (de + bugg + ing)
+오류 (errors)
+예외 (Execptions), 처리 (Handling)
 ```
